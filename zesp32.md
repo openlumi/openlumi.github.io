@@ -9,7 +9,7 @@ Zesp будет работать так же как и на стоковой п�
 Чтобы прошить на openwrt введите команду
 
 ```shell script
-sh /root/flash.sh /opt/app/util/Zigbee.bin
+sh /root/flash.sh /opt/app/util/Zigbee.bin --erasepdm
 ```
 
 Это обновит прошивку в модуле jn5169

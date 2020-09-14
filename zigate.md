@@ -4,7 +4,7 @@
 Она уже включена в архив. Чтобы прошить её в модуль, воспользуетесь командой
 
 ```shell script
-sh /root/flash.sh /root/zigate.bin
+sh /root/flash.sh /root/zigate.bin --erasepdm
 ```
 
 Если вы уже прошивали модуль ранее прошивкой Zigate или от Zesp, данный шаг 
