@@ -49,7 +49,7 @@ scp root@*GATEWAY_IP*:/tmp/lumi_stock.tar.gz .
 а также саму прошивку. В архив включена программа для windows 
 и консольное приложение под linux
 
-[Версия 0.1.0rc2](files/mfgtools-rc2.zip)
+[Версия 0.1.0rc3](files/mfgtools-rc3.zip)
 
 ### Распаковка прошивки
 
