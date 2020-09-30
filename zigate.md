@@ -18,6 +18,7 @@ sh /root/flash.sh /root/zigate.bin --erasepdm
 ![Добавление Zigate plugin](images/zigate_plugin.png)
 
 спустя несколько минут плагин проинициализируется и запустит панель управления
+на порту 9440.
 
 
 ## Панель управления Zigate
