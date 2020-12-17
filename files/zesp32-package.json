@@ -1,0 +1,13 @@
+{
+  "name": "zesp32",
+  "version": "0.1.0-a1",
+  "description": "",
+  "dependencies": {
+    "serialport": "9.0.1",
+    "int64-native": "https://github.com/hackmod/node-int64-native#nan-fix",
+    "bindings": "1.5.0"
+  },
+  "scripts": {
+    "start": "/usr/bin/node -r /opt/app/index.js /opt/app/zesp.jsc"
+  }
+}
