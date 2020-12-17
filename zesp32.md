@@ -8,12 +8,17 @@ Zesp будет работать так же как и на стоковой п�
 Установите пакеты на шлюз
 
 ```shell script
-wget https://github.com/devbis/xiaomi-gateway-openwrt/raw/master/files/node_v10.22.0-1_arm_cortex-a9_neon.ipk
-wget https://github.com/devbis/xiaomi-gateway-openwrt/raw/master/files/node-npm_v10.22.0-1_arm_cortex-a9_neon.ipk
-wget https://github.com/devbis/xiaomi-gateway-openwrt/raw/master/files/node-zesp32_20200928-1_arm_cortex-a9_neon.ipk
-opkg install node_v10.22.0-1_arm_cortex-a9_neon.ipk
-opkg install node-npm_v10.22.0-1_arm_cortex-a9_neon.ipk
-opkg install node-zesp32_20200928-1_arm_cortex-a9_neon.ipk
+wget https://openlumi.github.io/openwrt-packages/packages/arm_cortex-a9_neon/node/node_v12.19.0-1_arm_cortex-a9_neon.ipk
+wget https://openlumi.github.io/openwrt-packages/packages/arm_cortex-a9_neon/node/node-npm_v12.19.0-1_arm_cortex-a9_neon.ipk
+opkg update
+opkg install /tmp/node_v12.19.0-1_arm_cortex-a9_neon.ipk
+opkg install /tmp/node-npm_v12.19.0-1_arm_cortex-a9_neon.ipk
+wget http://82.146.46.112/fw/ZESPowrt.tar.gz
+tar -xzvf ZESPowrt.tar.gz -C /
+wget https://raw.githubusercontent.com/openlumi/xiaomi-gateway-openwrt/master/files/zesp32.init -O /etc/init.d/zesp32
+chmod +x /etc/init.d/zesp32
+/etc/init.d/zesp32 enable
+/etc/init.d/zesp32 start
 ```
 
 ### 2. Zigbee прошивка.
@@ -29,7 +34,8 @@ killall node
 Чтобы прошить на openwrt введите команду
 
 ```shell script
-sh /root/flash.sh /opt/zesp32/util/Zigbee.bin --erasepdm
+jnflash /opt/app/util/Zigbee.bin
+jntool erase_pdm
 ```
 
 Это обновит прошивку в модуле jn5169
