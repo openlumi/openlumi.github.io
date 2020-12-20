@@ -25,7 +25,7 @@ if [ -d "$DIR" ]; then
   echo "previous installation find remove it"
   rm -r /etc/domoticz/plugins/Domoticz-Zigate
 fi
-git clone https://github.com/pipiche38/Domoticz-Zigate.git
+git clone https://github.com/pipiche38/Domoticz-Zigate.git --depth 1
 chmod +x Domoticz-Zigate/plugin.py
 
 echo "Moving files and download domoticz config"
