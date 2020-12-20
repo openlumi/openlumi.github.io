@@ -8,6 +8,7 @@ Zesp будет работать так же как и на стоковой п�
 Установите пакеты на шлюз
 
 ```shell script
+cd /tmp
 wget https://openlumi.github.io/openwrt-packages/packages/arm_cortex-a9_neon/node/node_v12.19.0-1_arm_cortex-a9_neon.ipk
 wget https://openlumi.github.io/openwrt-packages/packages/arm_cortex-a9_neon/node/node-npm_v12.19.0-1_arm_cortex-a9_neon.ipk
 opkg update
