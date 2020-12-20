@@ -4,7 +4,7 @@
 Требуется прошить её и сбросить на начальные настройки
 
 ```shell script
-wget https://github.com/openlumi/ZiGate/releases/download/snapshot-20201008/ZiGate_3.1_cd_fix_leak__JN5169_COORDINATOR_115200.bin -O /tmp/zigate.bin
+wget https://github.com/openlumi/ZiGate/releases/download/snapshot-20201201/ZigbeeNodeControlBridge_JN5169_FULL_FUNC_DEVICE_31e_115200.bin -O /tmp/zigate.bin 
 jnflash /tmp/zigate.bin
 jntool erase_pdm
 ```
