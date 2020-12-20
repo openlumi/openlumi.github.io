@@ -5,7 +5,7 @@
 нужно будет запустить в консоли
 
 ```sh
-wget https://github.com/openlumi/xiaomi-gateway-openwrt/raw/master/files/domoticz.sh -O - | bash
+wget https://github.com/openlumi/xiaomi-gateway-openwrt/raw/master/files/domoticz.sh -O - | sh
 ````
 Он установит все необходимые библиотеки, domoticz и плагин для работы с zigbee.
 
