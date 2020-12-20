@@ -28,8 +28,8 @@ jntool erase_pdm
 
 Для настройки использовать
 
-    Модель: DIN
-    Порт: /dev/ttymxc1
+    Zigate Model: DIN
+    Serial Port: /dev/ttymxc1
 
 
 спустя несколько минут плагин проинициализируется и запустит панель управления
