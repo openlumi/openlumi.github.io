@@ -8,6 +8,7 @@
 wget https://github.com/openlumi/xiaomi-gateway-openwrt/raw/master/files/domoticz.sh -O - | sh
 ````
 Он установит все необходимые библиотеки, domoticz и плагин для работы с zigbee.
+Домотикс будет работать на порту 8080.
 
 # Прошивка Zigate и подключение Zigate plugin к Domoticz
 
