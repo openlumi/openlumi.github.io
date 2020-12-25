@@ -22,7 +22,7 @@ echo 'src/gz openlumi https://openlumi.github.io/openwrt-packages/packages/19.07
 
 ```shell
 opkg update
-opkg install mosquitto node node-zigbee2mqt
+opkg install mosquitto node node-zigbee2mqtt
 sed -i 's/port: 8080/port: 8090/' /etc/zigbee2mqtt/configuration.yaml
 sed -i 's/baudrate: 1000000/baudrate: 115200/' /etc/zigbee2mqtt/configuration.yaml
 sed -i 's/homeassistant: false/homeassistant: true/' /etc/zigbee2mqtt/configuration.yaml
