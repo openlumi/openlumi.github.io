@@ -5,15 +5,20 @@ Zesp будет работать так же как и на стоковой п�
 
 ### 1. Установка nodejs и zesp32
 
+Добавьте репозиторий с пакетами для проекта openlumi
+
+```shell
+[ -f /lib/libustream-ssl.so ] && echo "libustream already installed" || opkg install libustream-mbedtls
+wget https://openlumi.github.io/openwrt-packages/public.key
+opkg-key add public.key
+echo 'src/gz openlumi https://openlumi.github.io/openwrt-packages/packages/19.07/arm_cortex-a9_neon' >> /etc/opkg/customfeeds.conf
+```
+
 Установите пакеты на шлюз
 
-```shell script
-cd /tmp
-wget https://openlumi.github.io/openwrt-packages/packages/arm_cortex-a9_neon/node/node_v12.19.0-1_arm_cortex-a9_neon.ipk
-wget https://openlumi.github.io/openwrt-packages/packages/arm_cortex-a9_neon/node/node-npm_v12.19.0-1_arm_cortex-a9_neon.ipk
+```shell
 opkg update
-opkg install /tmp/node_v12.19.0-1_arm_cortex-a9_neon.ipk
-opkg install /tmp/node-npm_v12.19.0-1_arm_cortex-a9_neon.ipk
+opkg install node node-npm
 wget http://82.146.46.112/fw/ZESPowrt.tar.gz
 tar -xzvf ZESPowrt.tar.gz -C /
 wget https://raw.githubusercontent.com/openlumi/xiaomi-gateway-openwrt/master/files/zesp32.init -O /etc/init.d/zesp32
