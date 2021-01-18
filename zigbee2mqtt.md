@@ -3,7 +3,7 @@
 Для модуля jn5169, установленного на нашем шлюзе используется прошивка ZiGate.
 Требуется прошить её и сбросить на начальные настройки
 
-```shell script
+```shell
 wget https://github.com/openlumi/ZiGate/releases/download/snapshot-20201201/ZigbeeNodeControlBridge_JN5169_FULL_FUNC_DEVICE_31e_115200.bin -O /tmp/zigate.bin 
 jnflash /tmp/zigate.bin
 jntool erase_pdm

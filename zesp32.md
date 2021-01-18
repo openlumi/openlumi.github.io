@@ -34,13 +34,13 @@ wget https://raw.githubusercontent.com/openlumi/xiaomi-gateway-openwrt/master/fi
 
 Остановите zesp32
 
-```shell script
+```shell
 killall node
 ```
 
 Чтобы прошить на openwrt введите команду
 
-```shell script
+```shell
 jnflash /opt/app/util/Zigbee.bin
 jntool erase_pdm
 ```
@@ -48,7 +48,7 @@ jntool erase_pdm
 Это обновит прошивку в модуле jn5169
 Теперь можно запустить zesp32 заново
 
-```shell script
+```shell
 /etc/init.d/zesp32 restart
 ```
 
