@@ -1,7 +1,7 @@
-# Прошивка Zigate и настройка Zigbee2mqtt
+# Flashing ZiGate and configuring Zigbee2mqtt
 
-Для модуля jn5169, установленного на нашем шлюзе используется прошивка ZiGate.
-Требуется прошить её и сбросить на начальные настройки
+For the jn5169 chip, which is installed on our gateway, the Zigate firmware is used.
+You need to flash it and reset it to default settings.
 
 ```shell
 wget https://github.com/openlumi/ZiGate/releases/download/snapshot-20201201/ZigbeeNodeControlBridge_JN5169_FULL_FUNC_DEVICE_31e_115200.bin -O /tmp/zigate.bin 
@@ -9,7 +9,7 @@ jnflash /tmp/zigate.bin
 jntool erase_pdm
 ```
 
-Добавьте репозиторий с пакетами для проекта openlumi
+Add the repository with packages for openlumi project
 
 ```shell
 [ -f /lib/libustream-ssl.so ] && echo "libustream already installed" || opkg install libustream-mbedtls
@@ -18,7 +18,7 @@ opkg-key add public.key
 echo 'src/gz openlumi https://openlumi.github.io/openwrt-packages/packages/19.07/arm_cortex-a9_neon' >> /etc/opkg/customfeeds.conf
 ```
 
-Далее потребуется установить необходимые библиотеки и сам zigbee2mqtt
+Then you should install the required libraries and zigbee2mqtt itself.
 
 ```shell
 opkg update
@@ -29,11 +29,11 @@ sed -i 's/homeassistant: false/homeassistant: true/' /etc/zigbee2mqtt/configurat
 /etc/init.d/zigbee2mqtt restart
 ```
 
-Теперь по адресу http://*YOUR-IP*:8090/ будет работать веб-интерфейс zigbee2mqtt,
-который будет отсылать данные в локальный MQTT сервер. 
-Если вам требуется настроить подключение к внешнему MQTT серверу,
-отредактируйте файл настроек `/etc/zigbee2mqtt/configuration.yaml` и перезапустите
-сервис `zigbee2mqtt`
+Now the zigbee2mqtt web interface will work on http://*GATEWAY-IP*:8090/.
+It will send zigbee events to the local MQTT server.
+If you need to configure the connection to the external MQTT broker, edit 
+the configuration file `/etc/zigbee2mqtt/configuration.yaml` and restart
+the `zigbee2mqtt` service
 
 ```shell
 /etc/init.d/zigbee2mqtt restart

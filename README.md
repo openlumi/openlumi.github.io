@@ -1,247 +1,160 @@
-# Установка альтернативной прошивки OpenWrt на шлюзы DGNWG05LM и ZHWG11LM
+# Installing an alternate OpenWrt firmware on DGNWG05LM and ZHWG11LM gateways
 
-Инструкция относится только к европейской версии шлюза от xiaomi mieu01, 
-с европейской вилкой, а также к версии шлюза от Aqara ZHWG11LM с китайской или 
-европейской вилкой. Для версии xiaomi gateway2 с китайской вилкой 
-DGNWG02LM она не подойдёт, в нём установлены другие аппаратные комплектующие.
+The instruction applies only to the European version of the gateway mieu01 from 
+Xiaomi, with a European plug, as well as a version of the gateway from 
+Aqara ZHWG11LM with a Chinese or European plug. For xiaomi gateway2 
+version with Chinese plug DGNWG02LM it will not work, it has other hardware
+components installed.
 
-Данная инструкция подразумевает, что у вас уже есть доступ ssh к шлюзу.
-Если вы это не сделали, воспользуйтесь инструкцией
+This instruction assumes that you already have ssh access to the gateway.
+If you have not done this, use the following instruction
 
-[https://4pda.ru/forum/index.php?act=findpost&pid=99314437&anchor=Spoil-99314437-1](https://4pda.ru/forum/index.php?act=findpost&pid=99314437&anchor=Spoil-99314437-1)
+[==> Gain root](./gain_root.md)
 
-## Резервная копия
-Сделайте резервную копию. Если вы решите вернуться на
-оригинальную прошивку, для восстановления вам потребуется tar.gz с архивом 
-корневой файловой системы.
+## Backup
+Do make a back-up copy. If you decide to return to the stock firmware,
+to revert to the original firmware you need the tar.gz backup from your 
+device with an archive of your root filesystem.
+You cannot use a `generic backup` because every firmware contains unique 
+IDs and keys. 
 
 ```shell
 tar -cvpzf /tmp/lumi_stock.tar.gz -C / . --exclude='./tmp/*' --exclude='./proc/*' --exclude='./sys/*'
 ```
 
-После того, как бэкап сделается, скачайте его на локальный компьютер
+After backup is done, __download it to your local computer__.
 
 ```shell
 scp root@*GATEWAY_IP*:/tmp/lumi_stock.tar.gz .
 ```
 
-или с помощью программы WinScp в режиме `scp` (dropbear на шлюзе не поддерживает режим sftp)
+or using WinScp in `scp` mode (dropbear on the gateway doesn't support sftp 
+mode)
 
-Если у вас уже есть образ rootfs сделанный через dd, **всё равно сделайте архив**.
-На этапе загрузки образа dd обычно возникают ошибки nand flash или ubifs. Вариант
-с tar.gz лишён этих недостатков, потому что форматирует флеш перед загрузкой.
+If you already have a rootfs image made with dd, **make an archive anyway**.
+During the boot phase of the dd image, nand flash or ubifs errors usually 
+occur. Option with tar.gz does not have these drawbacks because it 
+formats the flash before writing the files.
 
-## Прошивка по воздуху
+## Flashing over the air
 
-Это наиболее простой метод, который можно использовать даже через ssh.
-Он не требует дополнительной пайки но работает только на оригинальной 
-операционной системе. 
+It is the easiest and recommended way that can be used either with a serial 
+console or via ssh. It doesn't require additional soldering but works only 
+on the stock firmware.
 
-Убедитесь, что у вас нет лишних архивов во временной папке /tmp, потребуется место
-для скачивания архивов. Также, шлюз должен быть подключён к интернету.
+Double-check you don't have any redundant archives in the `/tmp` directory.
+You'll need space to download firmware binaries. The gateway must be connected
+to the internet too.
 
-Запустите команду:
+Run the command:
 
 ```shell
 echo -e "GET /openlumi/owrt-installer/main/install.sh HTTP/1.0\nHost: raw.githubusercontent.com\n" | openssl s_client -quiet -connect raw.githubusercontent.com:443 2>/dev/null | sed '1,/^\r$/d' | bash
 ```
-Данная команда завершит все процессы на шлюзе (если у вас оборвётся) сеанс ssh, 
-это ожидаемое поведение. Прошивка занимает несколько минут. По окончанию прошивки,
-шлюз поднимет открытую сеть OpenWrt. Если это произошло, можно сразу переходить 
-к разделу ["Использование OpenWrt"](#использование-openwrt)
 
-Репозиторий скриптов для установки https://github.com/openlumi/owrt-installer
+This command will stop all the processes on the gateway. It is a normal 
+behavior if your ssh connection is dropped. The flashing process takes a few 
+minutes. After it is done the gateway will create an open Wi-Fi network
+with `OpenWrt` name.
 
-## Если по каким-то причинам, у вас не сработал метод прошивки по воздуху, вы почти всегда можете вернуть к жизни шлюз припаяв usb и uart и прошить через mfgtools 
+## If, for some reason, the Over-the-Air method did not work for you, you can bring the gateway back to life by soldering usb and uart and flashing it through mfgtools
+[==> Flash over USB](./usb_flashing.md)
 
-## Припаяйте usb + uart
+### Using OpenWrt
 
-Чтобы провести модификацию прошивки вам потребуется произвести
- аппаратные модификации, припаять 7 проводов к самому шлюзу
-- 3 провода на usb2uart переходник (вы это делали на этапе получения рута)
-- 4 провода на usb разъём или провод с usb штекером на конце.
- Достаточно припаять 4 провода, +5v, d+, d- и gnd.
- ID провод не задействуется
- Проверьте, что d+ и d- не перепутаны местами, иначе устройство не определится
+After flashing, the gateway will create an open Wi-Fi network with the 
+name OpenWrt. To connect the gateway to your router you have to connect 
+to this network and go to http://192.168.1.1/
 
-![Распиновка UART и USB на шлюзе](images/gateway_pinout.jpg "Как припаивать провода")
+Default credentials to the gateway are: login 'root' without a password.
 
-
-## Прошивка
-
-Мы подготовили архив с программой mfgtools для загрузки прощивки на шлюз,
-а также саму прошивку. В архив включена программа для windows 
-и консольное приложение под linux
-
-[Версия 19.07.5 2020-12-17](files/mfgtools-19.07.5-20201217.zip)
-
-### Подключите шлюз к компьютеру
-
-Нужно подключить шлюз двумя кабелями к компьютеру. UART и USB.
-USB на данном этапе не будет определяться в компьютере.
-Чтобы подключиться к консоли шлюза, для windows используйте 
-программу PuTTY и используйте COM-порт, который появился для usb2uart.
-Для linux используйте любую терминальную программу, например
-`picocom /dev/ttyUSB0 -b 115200` 
-
-
-### Перевод в режим загрузки через USB
-
-Для того чтобы перевести в режим прошивки, нужно при старте шлюза в 
-консоли на последовательном порту прервать загрузку uboot нажатием 
-любой кнопки. У вас будет 1 секунда на это. Появится приглашение для команд
-
-    =>
-
-Далее в командной строке uboot вам надо ввести 
-
-    bmode usb
-
-И нажать enter. 
-После этого шлюз перейдёт в режим загрузки по usb и mfgtools сможет обновить
-разделы в памяти шлюза.
-
-![Переход в режим загрузки по USB](images/bmode_usb.png "Переход в режим загрузки по USB")
-
-В случае если у вас Windows, вам может потребоваться установить драйвера, 
-из папки Drivers.
-
-Запускайте mfgtools.
-
-#### Windows 
-В случае windows, у вас откроется окно. Если всё припаяно правильно и драйвера
-установлены верно, то в строке в программе будет написано 
-HID-compliant device
-![Mfgtools](images/mfgtools_win.png "Mfgtools")
-
-Нужно нажать кнопку Start для начала прошивки. 
-
-После окончания прошивки, когда полоска прогресса дойдёт до конца и 
-станет зелёной, нужно нажать Stop. Если этого не сделать, спустя несколько 
-минут программа начнёт прошивку повторно, и это приведёт к ошибке. Если такое
-случилось, перезагрузите шлюз и повторите процедуру, начиная перевода
-шлюза в `bmode usb`.
-
-#### Linux
-
-Перейдите в папку с прошивкой. Запустите консольную утилиту от суперпользователя
-
-```shell
-sudo ./mfgtoolcli -p 1
-```
-
-
-В псевдографическом интерфейсе будут отображаться этапы прошивки
-
-![Mfgtools](images/mfgtools_lin.png)
-
-При подключении шлюза и обнаружении hid устройства, программа сразу начнёт 
-процесс прошивки. Если процесс не пошёл, проверьте, что устройство подключено и 
-определилось в выводе команды `dmesg`
-
-
-### Процесс прошивки
-Следить за этапами прошивки можно также и в консоли вывода самого шлюза.
-По окончанию прошивки в консоли будет выведено 
-
-    Update Complete!
-
-![Update complete](images/update_complete.png)
-
-После этого можно перезагружать шлюз. Вытащите его из розетки и воткните обратно.
-Иногда, шлюз виснет на финальном этапе. Если в течение 5 минут ничего не происходит, 
-то скорее всего прошивка прошла удачно и можно перезагрузить шлюз.
-
-# Не забудьте подключить антенны!
-
-Иначе проблемы с подключением к сети обеспечены
-
-
-### Использование OpenWrt
-
-После прошивки шлюз поднимает открытую wifi сеть с именем OpenWrt.
-Чтобы подключить его уже к своему роутеру, вам нужно подключиться к 
-этой сети и зайти на адрес http://192.168.1.1/
-
-По умолчанию вход на шлюз: логин root без пароля.
-
-Перейдите в раздел Network -> Wireless
+Go to the section Network -> Wireless
 
 ![Go to Wireless](images/owrt_menu.png)
 
-Нажмите кнопку Scan напротив первого интерфейса radio0
-Через несколько секунд вы сможете увидеть список сетей. Найдите вашу сеть 
-и нажмите Join Network
+Press the Scan button against the first interface radio0
+After a few seconds, you will see a list of networks. Find your network and
+press Join Network
 
 ![Scan](images/owrt_scan.png)
 
-В появившемся окне отметьте галочку "Replace wireless configuration".
-Ниже укажите пароль от вашей сети
+In the pop-up window set the "Replace wireless configuration" checkbox.
+Enter the passphrase from your Wi-Fi network below
 
 ![WiFi password](images/owrt_connect1.png)
 
-На следующем экране подтвердите параметры, нажмите кнопку Save.
+Confirm the settings on the next window, press the Save button.
 
 ![WiFi password-2](images/owrt_connect2.png)
 
-Чтобы правильно применить изменения, нужно отключить точку доступа нажав кнопку
-"Disable" напротив подключения для второго интерфейса.
+To apply the changes correctly, you should disable Access Poing by pressing 
+"Disable" button against connection for the second interface.
 
 ![Disable AP](images/owrt_disable_ap.png)
 
-Шлюз отключит вас от точки доступа и применит изменения сети.
-После прошивки меняется mac адрес шлюза, потому ip адрес тоже скорее всего
-поменяется. Проверьте его в роутере или в самом шлюзе.
+The gateway will disconnect you from AP and will apply the changes.
+After the firmware, the mac address of the gateway changes, because the ip address is also most likely
+will change. Check it in the router or in the gateway itself.
 
-На шлюзе предустановлены: 
-- Графический интерфейс OpenWrt LuCi на 80 порту http
-- командная утилита для прошивки zigbee модуля jn5169
+The gateway is pre-installed:
+- OpenWrt LuCi GUI on port 80 http
+- command utility for flashing zigbee module jn5169
+- Web plugin for LuCi to flash a firmware
 
-Не включайте на шлюзе одновременно режимы WiFi AP + Station.
-Драйвер, который используется в системе не может работать в двух режимах 
-одновременно.
-Если вы поменяли настройки LuCi и после этого шлюз перестал подключаться к сети,
-зажмите кнопку на шлюзе на 10 секунд. Он промигает жёлтым цветом 3 раза и 
-перейдёт в режим начальной настройки сети, подняв точку доступа AP
+Do not enable Wi-Fi AP + Station modes on the gateway at the same time.
+The driver that is used in the system cannot work in two modes
+at the same time.
+If you changed the LuCi settings and after that the gateway stopped connecting to the network,
+press the button on the gateway for 10 seconds. It will blink yellow 3 times
+and with start the initial network configuration mode with creating Wi-Fi 
+Access Point.
 
-### Работа с Zigbee
+### Working with ZigBee
 
-Модуль Zigbee может работать только с одной из систем, потому вам нужно выбрать,
-какую из программ вы будете использовать. В то же время, можно использовать, 
-например zigbee2mqtt для работы с zigbee и domoticz для других автоматизаций.
+Zigbee chip can work only with a single system, therefore you have to choose
+a program you'd like to use. But at the same time, you can use zigbee2mqtt to 
+work with zigbee and domoticz for other automations.
 
-1. [Установка Zigbee2mqtt](./zigbee2mqtt.md)
-2. [Установка Zesp32](./zesp32.md)  
-3. [Установка Domoticz и настройка плагина zigate](./domoticz.md)
+1. [Installing Zigbee2mqtt](./zigbee2mqtt.md)
+2. [Installing Zesp32](./zesp32.md)  
+3. [Installing Domoticz and configuring Zigate plugin](./domoticz.md)
 
-### Сброс на заводские настройки
+### Other software
 
-Чтобы сбросить все данные на прошивке OpenWrt и вернуться на этап начальной
-установки (как будто вы только что прошили шлюз), нужно зажать кнопку на 20 секунд.
-Шлюз промигает красным 3 раза и вернётся к начальной настройке с поднятием точки доступа.
-Будьте аккуратны со сбросом настроек, все программы и настройки будут стёрты.
-Используйте его в крайнем случае, когда сброс сети и дальнейшая настройка не помогает.
+1. [https://github.com/openlumi/lumimqtt/](https://github.com/openlumi/lumimqtt/) - a service that allow managing the gateway devices over the MQTT
+2. [https://flows.nodered.org/node/node-red-contrib-xiaomi-gateway](https://flows.nodered.org/node/node-red-contrib-xiaomi-gateway) - a package for node red
 
-### Возврат на стоковую прошивку
+### Reset to the defaults
 
-Для возврата на родную прошивку нужно прошить оригинальные ядро, dtb и 
-файловую систему из резервной копии. Ядро и dtb одинаковые на все прошивки,
-а для работы оригинального приложения xiaomi вам потребуется бекап.
+To erase data on the OpenWrt firmware and go to the initial set up 
+(like you just flashed the gateway), you must hold the gateway button for
+20 seconds. The gateway will blink red 3 times and will reset to the initial
+set up with creating Wi-Fi Access Point.
+Be careful with resetting, all programs and settings will be erased.
+Use it in case of emergency, when resetting Wi-Fi credentials not help.
 
-[mfgtools для возврата на сток](files/mfgtools-lumi-stock.zip)
 
-Положите свой бекап с именем `lumi_stock.tar.gz` в папку `Profiles/Linux/OS Firmware/files` 
-поверх пустого файла `lumi_stock.tar.gz`
+### Return to stock firmware
 
-Дальше переведите шлюз в режим загрузки по usb и через mfgtools прошейте 
-оригинальную прошивку. 
+To return to the stock firmware you have to flash original kernel, dtb
+and rootfs from your backup. Kernel and DTB are the same for all gateways
+and to keep the Mi Home working, you'll need your tar.gz backup.
+
+[mfgtools to return to the stock firmware](files/mfgtools-lumi-stock.zip)
+
+Put your backup with the name`lumi_stock.tar.gz` to directory
+`Profiles/Linux/OS Firmware/files` overwriting the empty file
+`lumi_stock.tar.gz`
+
+Then again put the gateway into the boot mode via usb and via mfgtools
+flash the original firmware.
 
 ## gpio
-благодаря @Clear_Highway и @lmahmutov
+Kudos to @Clear_Highway и @lmahmutov
 
 ![gateway_pinout_gpio](images/gateway_pinout_gpio.png "gpio pinout")
 
-```
+```shell
 opkg update
 opkg install gpioctl-sysfs
 opkg install kmod-spi-gpio
@@ -249,8 +162,8 @@ opkg install kmod-spi-dev
 opkg install kmod-spi-gpio-custom
 ```
 
-Управление
-```
+Control
+```shell
 echo "69" > /sys/class/gpio/export
 echo "70" > /sys/class/gpio/export
 
@@ -261,10 +174,11 @@ echo "out" > /sys/class/gpio/gpio70/direction
 echo "1" > /sys/class/gpio/gpio70/value
 echo "0" > /sys/class/gpio/gpio70/value
 ```
-Номера GPIO в системе. номера контактов начинаются с нижнего на фото и продолжаются вверх. DOWN и UP
- значит куда подтяжка. Down к GND, UP - 3.3v
 
-| № п/п | PULL | GPIO |
+GPIO numbers. Contact numbers start from the lowest  on the photo and go up. 
+DOWN and UP represents the type of pulling. Down to GND, UP - 3.3v
+
+| Num | PULL | GPIO |
 | :---: | :---: | :---: |
 | 2 | DOWN | 69 |
 | 1 | DOWN | 70 |
@@ -291,9 +205,9 @@ echo "0" > /sys/class/gpio/gpio70/value
 | 11 | DOWN | 91 |
 | 13 | DOWN | 92 |
 
-## Ссылки
+## Links
 
-1. Статья, которая подробно описывает изменения технические модификации: 
-[Xiaomi Gateway (eu version — Lumi.gateway.mieu01 ) Hacked](https://habr.com/ru/post/494296/)
-2. Сборник информации по аппаратному и програмному модингу Xiaomi Gateway [https://github.com/T-REX-XP/XiaomiGatewayHack](https://github.com/T-REX-XP/XiaomiGatewayHack)
-2. Телеграм канал с обсуждением модификаций [https://t.me/xiaomi_gw_hack](https://t.me/xiaomi_gw_hack)
+1. An article that details the changes and technical modifications:
+[Xiaomi Gateway (eu version - Lumi.gateway.mieu01) Hacked] (https://habr.com/ru/post/494296/)
+2. Collection of information on hardware and software modding of Xiaomi Gateway [https://github.com/T-REX-XP/XiaomiGatewayHack](https://github.com/T-REX-XP/XiaomiGatewayHack)
+2. Telegram channel with discussion of modifications [https://t.me/xiaomi_gw_hack ](https://t.me/xiaomi_gw_hack)

@@ -1,11 +1,11 @@
-# Установка Zesp32 на прошивку с openwrt
+# Installing Zesp32
 
-Zesp будет работать так же как и на стоковой прошивке, но ввиду отличия в системных
-библиотеках, требуются дополнительные шаги
+Zesp will work the same as on the stock firmware, but due to the difference
+in system libraries, additional steps are required
 
-### 1. Установка nodejs и zesp32
+### 1. Installing nodejs and zesp32
 
-Добавьте репозиторий с пакетами для проекта openlumi
+Add the package repository for the openlumi project
 
 ```shell
 [ -f /lib/libustream-ssl.so ] && echo "libustream already installed" || opkg install libustream-mbedtls
@@ -14,7 +14,7 @@ opkg-key add public.key
 echo 'src/gz openlumi https://openlumi.github.io/openwrt-packages/packages/19.07/arm_cortex-a9_neon' >> /etc/opkg/customfeeds.conf
 ```
 
-Установите пакеты на шлюз
+Install packages on the gateway
 
 ```shell
 opkg update
@@ -28,28 +28,28 @@ wget https://raw.githubusercontent.com/openlumi/xiaomi-gateway-openwrt/master/fi
 /etc/init.d/zesp32 start
 ```
 
-### 2. Zigbee прошивка.
+### 2. Zigbee firmware.
 
-Если у вас уже прошита версия для zesp, можно пропустить этот шаг.
+You can skip this step if you already have a Zesp zigbee firmware flashed.
 
-Остановите zesp32
+Stop zesp32
 
 ```shell
 killall node
 ```
 
-Чтобы прошить на openwrt введите команду
+To flash the zigbee firmware enter the following command
 
 ```shell
 jnflash /opt/app/util/Zigbee.bin
 jntool erase_pdm
 ```
 
-Это обновит прошивку в модуле jn5169
-Теперь можно запустить zesp32 заново
+It will update the firmware in the jn5169 module.
+Now you can start zesp32 again
 
 ```shell
 /etc/init.d/zesp32 restart
 ```
 
-Интерфейс zesp32 будет доступен на `http://*GATEWAY_IP*:8081/`
+Zesp32 interface will be available on `http://*GATEWAY_IP*:8081/`
