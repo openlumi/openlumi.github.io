@@ -6,7 +6,7 @@ Solder 3 contacts GND, RX, TX to UART:
  
 
 Then connect UART 2 USB adapter. To use serial console while booting, you 
-can use minicom/picocom on Linux or PuTTY on Windows.
+can use minicom/picocom on Linux or PuTTY on Windows. Use baudrate 115200.
 Stop booting by pressing any key in the uart terminal right after powering the
 device. If it not stops with prompt `=>` you should reboot the gateway by 
 plugging it off and then on. 
@@ -32,7 +32,7 @@ press enter one more time to confirm it.
 __NOW YOUR GATEWAY HAS ROOT__
 
 To enable ssh server on the gateway add the following line at the end of 
-`/etc/rc.local` before the `exit 0` line:
+`/etc/rc.local` before the `/home/root/fac/fac_test` line:
 
 ```
 /etc/init.d/dropbear start &
