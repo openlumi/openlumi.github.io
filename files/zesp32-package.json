@@ -8,6 +8,7 @@
     "bindings": "1.5.0"
   },
   "scripts": {
-    "start": "/usr/bin/node -r /opt/app/index.js /opt/app/zesp.jsc"
+    "start": "/usr/bin/node -r /opt/app/index.js /opt/app/zesp_owrt.jsc",
+    "start_stock": "/usr/bin/node -r /opt/app/index.js /opt/app/zesp.jsc"
   }
 }
