@@ -5,7 +5,7 @@ To install the recent version you should use the script, that you have to run
 in console
 
 ```sh
-wget https://github.com/openlumi/xiaomi-gateway-openwrt/raw/master/files/domoticz.sh -O - | sh
+wget https://raw.githubusercontent.com/openlumi/openlumi.github.io/master/files/domoticz.sh -O - | sh
 ````
 
 It will install all requirements, Domoticz, and a plugin to work with zigbee.

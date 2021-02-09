@@ -134,7 +134,7 @@ work with zigbee and domoticz for other automations.
 
 1. [Installing Zigbee2mqtt](./zigbee2mqtt.md)
 2. [Installing Zesp32](./zesp32.md)  
-3. [Installing Domoticz and configuring Zigate plugin](./domoticz.md)
+3. [Installing Domoticz and configuring Zigate plugin](./domoticz-zigate.md)
 
 ### Other software
 
