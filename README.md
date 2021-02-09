@@ -1,5 +1,22 @@
 # Installing an alternate OpenWrt firmware on DGNWG05LM and ZHWG11LM gateways
 
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Gain root](./gain_root.md)
+3. [Making a backup](#backup)
+4. [Flashing over-the-air](#flashing-over-the-air)
+5. [Using OpenWrt](#using-openwrt)
+6. [Working with ZigBee](#working-with-zigbee)
+7. [Other software](#other-software)
+8. [Resetting to defaults](#reset-to-the-defaults)
+9. Soldering USB   
+    * [Soldering and flashing firmware over USB](./usb_flashing.md)
+    * [Return to stock firmware](#return-to-stock-firmware)
+10. [GPIO on the board](#gpio)
+11. [Links](#links)
+
+## Introduction
 The instruction applies only to the European version of the gateway mieu01 from 
 Xiaomi, with a European plug, as well as a version of the gateway from 
 Aqara ZHWG11LM with a Chinese or European plug. For xiaomi gateway2 
