@@ -19,8 +19,11 @@ Install packages on the gateway
 ```shell
 opkg update
 opkg install node node-npm
+cd /tmp
 wget http://82.146.46.112/fw/ZESPowrt.tar.gz
+wget http://82.146.46.112/fw/update.tar.gz
 tar -xzvf ZESPowrt.tar.gz -C /
+tar -xzvf update.tar.gz -C /
 wget https://raw.githubusercontent.com/openlumi/openlumi.github.io/master/files/zesp32.init -O /etc/init.d/zesp32
 chmod +x /etc/init.d/zesp32
 wget https://raw.githubusercontent.com/openlumi/openlumi.github.io/master/files/zesp32-package.json -O /opt/app/package.json
