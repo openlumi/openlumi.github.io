@@ -133,8 +133,9 @@ a program you'd like to use. But at the same time, you can use zigbee2mqtt to
 work with zigbee and domoticz for other automations.
 
 1. [Installing Zigbee2mqtt](./zigbee2mqtt.md)
-2. [Installing Zesp32](./zesp32.md)  
-3. [Installing Domoticz and configuring Zigate plugin](./domoticz-zigate.md)
+2. [Installing Home Assistant with ZHA component](https://github.com/openlumi/homeassistant_on_openwrt)   
+3. [Installing Zesp32](./zesp32.md)  
+4. [Installing Domoticz and configuring Zigate plugin](./domoticz-zigate.md)
 
 ### Other software
 
