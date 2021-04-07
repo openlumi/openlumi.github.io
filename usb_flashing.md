@@ -19,7 +19,7 @@ We have prepared an archive with the mfgtools program for downloading the firmwa
 as well as the firmware itself. The archive includes a program for windows
 and a console application for linux
 
-[Version 19.07.5 2020-12-17](files/mfgtools-19.07.5-20201217.zip)
+[Version 19.07.7 2021-02-24](files/mfgtools-19.07.7-20210224.zip)
 
 ### Connect the gateway to your computer
 
