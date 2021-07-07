@@ -167,6 +167,14 @@ Put your backup with the name`lumi_stock.tar.gz` to directory
 Then again put the gateway into the boot mode via usb and via mfgtools
 flash the original firmware.
 
+To flash zigbee firmware back, you should log in to the gateway with stock
+firmware and run the command
+```
+touch /home/root/need_update_coordinator.tag 
+```
+Then reboot. The gateway will automatically restore Zigbee firmware when 
+started.
+
 ## gpio
 Kudos to @Clear_Highway и @lmahmutov
 
