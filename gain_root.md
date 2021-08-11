@@ -34,11 +34,27 @@ __NOW YOUR GATEWAY HAS ROOT__
 To enable ssh server on the gateway add the following line at the end of 
 `/etc/rc.local` before the `/home/root/fac/fac_test` line:
 
-```
+```shell
 /etc/init.d/dropbear start &
 ```
 
 Now you can reboot and connect to your gateway at `*GATEWAY_IP*`, port 22.
+
+
+If you receive an error:
+```
+Starting Dropbear SSH server: Pseudo-terminal will not be allocated because stdin is not a terminal.
+ssh: connect to host rsa port 22: Connection refused
+```
+
+It means that your dropbear is compiled without ssh-server support and 
+can serve only as a client. Replace it with a fully functional ssh-server:
+
+```shell
+mv /usr/sbin/dropbearmulti /usr/sbin/dropbearmulti.backup
+echo -e "GET /openlumi/openlumi.github.io/master/files/dropbearmulti HTTP/1.0\nHost: raw.githubusercontent.com\n" | openssl s_client -quiet -connect raw.githubusercontent.com:443 -servername raw.githubusercontent.com 2>/dev/null | sed '1,/^\r$/d' > /usr/sbin/dropbearmulti
+chmod +x /usr/sbin/dropbearmulti
+```
 
 ## Setting Wi-Fi without Mi Home app.
 
