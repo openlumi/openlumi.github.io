@@ -144,12 +144,28 @@ work with zigbee and domoticz for other automations.
 
 ### Reset to the defaults
 
-To erase data on the OpenWrt firmware and go to the initial set up 
-(like you just flashed the gateway), you must hold the gateway button for
+**Be careful with resetting, all programs and settings will be erased.
+Use it in case of emergency, when resetting Wi-Fi credentials not help.**
+
+There are 2 ways to erase data on the OpenWrt firmware and go to the initial set up 
+(like you just flashed the gateway),
+
+#### Hold button
+
+You must hold the gateway button for
 20 seconds. The gateway will blink red 3 times and will reset to the initial
 set up with creating Wi-Fi Access Point.
-Be careful with resetting, all programs and settings will be erased.
-Use it in case of emergency, when resetting Wi-Fi credentials not help.
+
+#### UART
+
+Connect the gateway with UART 2 USB adapter (like in step [==> gain root](./gain_root.md)) and wait for system load.
+
+Enter the following commands.
+
+```
+firstboot -y && reboot now
+```
+
 
 
 ### Return to stock firmware
@@ -160,7 +176,7 @@ and to keep the Mi Home working, you'll need your tar.gz backup.
 
 [mfgtools to return to the stock firmware](files/mfgtools-lumi-stock.zip)
 
-Put your backup with the name`lumi_stock.tar.gz` to directory
+Put your backup with the name `lumi_stock.tar.gz` to directory
 `Profiles/Linux/OS Firmware/files` overwriting the empty file
 `lumi_stock.tar.gz`
 
