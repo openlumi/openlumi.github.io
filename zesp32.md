@@ -26,7 +26,15 @@ Install packages on the gateway
 
 ```shell
 opkg update
+cat /etc/openwrt_release  | grep 21.02 > /dev/null && (
+cd /tmp &&
+wget https://github.com/openlumi/openlumi.github.io/raw/master/files/node_v12.22.6-1_arm_cortex-a9_neon.ipk &&
+wget https://github.com/openlumi/openlumi.github.io/raw/master/files/node-npm_v12.22.6-1_arm_cortex-a9_neon.ipk &&
+opkg install --force-downgrade node_v12.22.6-1_arm_cortex-a9_neon.ipk && 
+opkg install --force-downgrade node-npm_v12.22.6-1_arm_cortex-a9_neon.ipk
+) || (
 opkg install node node-npm
+)
 cd /tmp
 wget http://82.146.46.112/fw/ZESPowrt.tar.gz
 wget http://82.146.46.112/fw/update.tar.gz
