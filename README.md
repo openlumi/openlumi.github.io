@@ -32,7 +32,7 @@ Chinese plug DGNWG02LM. That version has other hardware components installed.
 ### Get root
 
 These instructions assume that you already have ssh access to the gateway.
-If you have not done this, [follow the instructions to get root](./gain_root.md)
+If you do not, [follow the instructions to get root](./gain_root.md).
 
 ### Make a backup
 
