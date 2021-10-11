@@ -1,6 +1,6 @@
 # Install an Alternate OpenWRT firmware on DGNWG05LM and ZHWG11LM gateways
 
-These instructions apply to only to:
+These instructions apply only to:
 
 * The European version of the gateway mieu01 from  Xiaomi, with a European plug
 * A version of the gateway from  Aqara ZHWG11LM, with a Chinese or European plug.
