@@ -1,119 +1,144 @@
-# Installing an alternate OpenWrt firmware on DGNWG05LM and ZHWG11LM gateways
+# Install an Alternate OpenWRT firmware on DGNWG05LM and ZHWG11LM gateways
 
-## Table of Contents
+These instructions apply to only to:
 
-1. [Introduction](#introduction)
-2. [Gain root](./gain_root.md)
-3. [Making a backup](#backup)
-4. [Flashing over-the-air](#flashing-over-the-air)
-5. [Using OpenWrt](#using-openwrt)
-6. [Working with ZigBee](#working-with-zigbee)
-7. [Other software](#other-software)
-8. [Resetting to defaults](#reset-to-the-defaults)
-9. Soldering USB   
-    * [Soldering and flashing firmware over USB](./usb_flashing.md)
-    * [Return to stock firmware](#return-to-stock-firmware)
-10. [GPIO on the board](#gpio)
-11. [Links](#links)
+* The European version of the gateway mieu01 from  Xiaomi, with a European plug
+* A version of the gateway from  Aqara ZHWG11LM, with a Chinese or European plug.
 
-## Introduction
-The instruction applies only to the European version of the gateway mieu01 from 
-Xiaomi, with a European plug, as well as a version of the gateway from 
-Aqara ZHWG11LM with a Chinese or European plug. For xiaomi gateway2 
-version with Chinese plug DGNWG02LM it will not work, it has other hardware
-components installed.
+The instructions will not work for the Xiaomi gateway2 version, with the
+Chinese plug DGNWG02LM. That version has other hardware components installed.
 
-This instruction assumes that you already have ssh access to the gateway.
-If you have not done this, use the following instruction
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
 
-[==> Gain root](./gain_root.md)
+- [Before you begin](#before-you-begin)
+    - [Make a backup](#make-a-backup)
+- [Flash your device over the air](#flash-your-device-over-the-air)
+    - [Error recovery: the Over-the-Air method did not work for you](#error-recovery-the-over-the-air-method-did-not-work-for-you)
+- [How to use OpenWrt](#how-to-use-openwrt)
+    - [Connect the gateway to your router](#connect-the-gateway-to-your-router)
+    - [Working with ZigBee](#working-with-zigbee)
+    - [Other software you might want to use](#other-software-you-might-want-to-use)
+- [Restore settings](#restore-settings)
+    - [Reset to the defaults](#reset-to-the-defaults)
+    - [Return to stock firmware](#return-to-stock-firmware)
+- [Reference of general-purpose input/output (GPIO)](#reference-of-general-purpose-inputoutput-gpio)
+- [Links](#links)
 
-## Backup
-Do make a back-up copy. If you decide to return to the stock firmware,
-to revert to the original firmware you need the tar.gz backup from your 
-device with an archive of your root filesystem.
-You cannot use a `generic backup` because every firmware contains unique 
-IDs and keys. 
+<!-- markdown-toc end -->
+
+
+## Before you begin
+
+- [ ] Get root
+- [ ] Make a backup
+
+### Get root
+
+These instructions assume that you already have ssh access to the gateway.
+If you have not done this, [follow the instructions to get root](./gain_root.md)
+
+### Make a backup
+
+Do make a back-up copy.
+
+If you decide to return to the stock firmware, you will need the `tar.gz`
+backup from your device, with an archive of your root filesystem.
+
+You cannot use a `generic backup`, because all firmware contains unique
+IDs and keys.
 
 ```shell
 tar -cvpzf /tmp/lumi_stock.tar.gz -C / . --exclude='./tmp/*' --exclude='./proc/*' --exclude='./sys/*'
 ```
 
-After backup is done, __download it to your local computer__.
+After the backup is done, __download it to your local computer__.
 
 ```shell
 scp root@*GATEWAY_IP*:/tmp/lumi_stock.tar.gz .
 ```
 
-or using WinScp in `scp` mode (dropbear on the gateway doesn't support sftp 
-mode)
+You can also use WinScp in `scp` mode (dropbear on the gateway doesn't support sftp
+mode).
 
-If you already have a rootfs image made with dd, **make an archive anyway**.
-During the boot phase of the dd image, nand flash or ubifs errors usually 
-occur. Option with tar.gz does not have these drawbacks because it 
+Even if you already have made a rootfs image with dd, **make an archive anyway**.
+
+During the boot phase of the dd image, nand flash or ubifs errors usually
+occur. Using the `tar.gz` option avoids these drawbacks, because it
 formats the flash before writing the files.
 
-## Flashing over the air
+## Flash your device over the air
 
-It is the easiest and recommended way that can be used either with a serial 
-console or via ssh. It doesn't require additional soldering but works only 
-on the stock firmware.
+Flashing your device over the air (OTA) is the easiest and recommended way.
+The method does not require soldering, and you can do it with a serial console
+or via ssh.
 
-Double-check you don't have any redundant archives in the `/tmp` directory.
-You'll need space to download firmware binaries. The gateway must be connected
-to the internet too.
 
-Run the command:
+Before flashing, make sure that the gateway is connected to the internet.
+You also need to double-check that you don't have any redundant archives in the
+`/tmp` directory. You'll need space to download the firmware binaries.
+
+The following commands work only on stock firmware:
 
 ```shell
 echo -e "GET /openlumi/owrt-installer/main/install.sh HTTP/1.0\nHost: raw.githubusercontent.com\n" | openssl s_client -quiet -connect raw.githubusercontent.com:443 -servername raw.githubusercontent.com 2>/dev/null | sed '1,/^\r$/d' | bash
 ```
 
-This command will stop all the processes on the gateway. It is a normal 
-behavior if your ssh connection is dropped. The flashing process takes a few 
-minutes. After it is done the gateway will create an open Wi-Fi network
-with `OpenWrt` name.
+This command stops all the processes on the gateway. If you are updating via ssh,
+the connection will drop─this is normal. The flashing process takes a few
+minutes. After it is done, the gateway will create an open Wi-Fi network with
+the name `OpenWrt`.
 
-## If, for some reason, the Over-the-Air method did not work for you, you can bring the gateway back to life by soldering usb and uart and flashing it through mfgtools
-[==> Flash over USB](./usb_flashing.md)
+### Error recovery: the Over-the-Air method did not work for you
 
-### Using OpenWrt
+If the preceding method fails for some reason, you can bring the gateway back
+to life by soldering the usb and uart, and flashing it through `mfgtools`.
 
-After flashing, the gateway will create an open Wi-Fi network with the 
-name OpenWrt. To connect the gateway to your router you have to connect 
-to this network and go to http://192.168.1.1/
+[See the instructions to flash over USB](./usb_flashing.md)
 
-Default credentials to the gateway are: login 'root' without a password.
+## How to use OpenWrt
 
-Go to the section Network -> Wireless
+After flashing, the gateway creates an open Wi-Fi network with the
+name OpenWrt.
+
+### Connect the gateway to your router
+
+1. To connect the gateway to your router, connect to the network and go to
+http://192.168.1.1/ .
+
+    The default credentials for the gateway are:
+
+        - login 'root': without a password.
+
+2. Go to the section **Network > Wireless**
 
 ![Go to Wireless](images/owrt_menu.png)
 
-Press the Scan button against the first interface radio0
-After a few seconds, you will see a list of networks. Find your network and
-press Join Network
+3. Press the **Scan** button against the first interface `radio0`. After a few
+seconds, you will see a list of networks. Find your network and press **Join Network**
 
 ![Scan](images/owrt_scan.png)
 
-In the pop-up window set the "Replace wireless configuration" checkbox.
+4. In the pop-up window, set the "Replace wireless configuration" checkbox.
 Enter the passphrase from your Wi-Fi network below
 
 ![WiFi password](images/owrt_connect1.png)
 
-Confirm the settings on the next window, press the Save button.
+5. Confirm the settings on the next window, press the **Save**.
 
 ![WiFi password-2](images/owrt_connect2.png)
 
-To apply the changes correctly, you should disable Access Poing by pressing 
-"Disable" button against connection for the second interface.
+6. To apply the changes correctly, disable Access Poing by pressing
+**Disable** for the connection for the second interface.
 
 ![Disable AP](images/owrt_disable_ap.png)
 
-The gateway will disconnect you from AP and will apply the changes.
-After the firmware, the mac address of the gateway changes, because the ip address is also most likely
-will change. Check it in the router or in the gateway itself.
+The gateway will disconnect you from AP and apply the changes.
+After the firmware, the mac address of the gateway changes, because the IP address
+also most likely changes. Check it in the router or in the gateway itself.
 
 The gateway is pre-installed:
+
 - OpenWrt LuCi GUI on port 80 http
 - command utility for flashing zigbee module jn5169
 - Web plugin for LuCi to flash a firmware
@@ -121,80 +146,88 @@ The gateway is pre-installed:
 Do not enable Wi-Fi AP + Station modes on the gateway at the same time.
 The driver that is used in the system cannot work in two modes
 at the same time.
-If you changed the LuCi settings and after that the gateway stopped connecting to the network,
+
+If you changed the LuCi settings and the gateway stopped connecting to the network,
 press the button on the gateway for 10 seconds. It will blink yellow 3 times
-and with start the initial network configuration mode with creating Wi-Fi 
+and with start the initial network configuration mode with the create Wi-Fi
 Access Point.
 
 ### Working with ZigBee
 
-Zigbee chip can work only with a single system, therefore you have to choose
-a program you'd like to use. But at the same time, you can use zigbee2mqtt to 
-work with zigbee and domoticz for other automations.
+The Zigbee chip can work only with a single system. You have to choose which
+program you'd like to use. At the same time, you can use zigbee2mqtt to work
+with Zigbee and domoticz for other automation.
 
 1. [Installing Zigbee2mqtt](./zigbee2mqtt.md)
-2. [Installing Home Assistant with ZHA component](https://github.com/openlumi/homeassistant_on_openwrt)   
-3. [Installing Zesp32](./zesp32.md)  
+2. [Installing Home Assistant with ZHA component](https://github.com/openlumi/homeassistant_on_openwrt)
+3. [Installing Zesp32](./zesp32.md)
 4. [Installing Domoticz and configuring Zigate plugin](./domoticz-zigate.md)
 
-### Other software
+### Other software you might want to use
 
-1. [https://github.com/openlumi/lumimqtt/](https://github.com/openlumi/lumimqtt/) - a service that allow managing the gateway devices over the MQTT
+1. [https://github.com/openlumi/lumimqtt/](https://github.com/openlumi/lumimqtt/) - a service that lets you manage gateway devices over the MQTT
 2. [https://flows.nodered.org/node/node-red-contrib-xiaomi-gateway](https://flows.nodered.org/node/node-red-contrib-xiaomi-gateway) - a package for node red
+
+## Restore settings
+
+If you want to go back some steps, these instructions can help you.
 
 ### Reset to the defaults
 
 **Be careful with resetting, all programs and settings will be erased.
-Use it in case of emergency, when resetting Wi-Fi credentials not help.**
+Use it in case of emergency, when resetting Wi-Fi credentials does not help.**
 
-There are 2 ways to erase data on the OpenWrt firmware and go to the initial set up 
-(like you just flashed the gateway),
+To go back to the initial set up (like you just flashed the gateway), there are
+two ways to erase the data on the OpenWRT:
 
-#### Hold button
+* Hold the button.
 
-You must hold the gateway button for
-20 seconds. The gateway will blink red 3 times and will reset to the initial
-set up with creating Wi-Fi Access Point.
+    You must hold the gateway button for 20 seconds.
+    The gateway will blink red 3 times and reset to the initial set up for
+    creating a Wi-Fi Access
 
-#### UART
+* UART
 
-Connect the gateway with UART 2 USB adapter (like in step [==> gain root](./gain_root.md)) and wait for system load.
+    Connect the gateway with the UART 2 USB adapter (like in the step
+    [get root](./gain_root.md)) and wait for the system to load.
 
-Enter the following commands.
+    Enter the following commands.
 
-```
-firstboot -y && reboot now
-```
-
-
+    ```
+    firstboot -y && reboot now
+    ```
 
 ### Return to stock firmware
 
-To return to the stock firmware you have to flash original kernel, dtb
-and rootfs from your backup. Kernel and DTB are the same for all gateways
-and to keep the Mi Home working, you'll need your tar.gz backup.
+To return to the stock firmware, you need to flash the original kernel, DTB,
+and rootfs from your backup. The Kernel and DTB are the same for all gateways.
+To keep the Mi Home working, you'll need your tar.gz backup.
 
 [mfgtools to return to the stock firmware](files/mfgtools-lumi-stock.zip)
 
-Put your backup with the name `lumi_stock.tar.gz` to directory
-`Profiles/Linux/OS Firmware/files` overwriting the empty file
+Name your backup `lumi_stock.tar.gz`. Put it in the directory
+`Profiles/Linux/OS Firmware/files`. This overwrites the empty file
 `lumi_stock.tar.gz`
 
-Then again put the gateway into the boot mode via usb and via mfgtools
+Then put the gateway into boot mode via usb and use `mfgtools` to
 flash the original firmware.
 
 To flash zigbee firmware back, you should log in to the gateway with stock
 firmware and run the command
 ```
-touch /home/root/need_update_coordinator.tag 
+touch /home/root/need_update_coordinator.tag
 ```
-Then reboot. The gateway will automatically restore Zigbee firmware when 
-started.
 
-## gpio
-Kudos to @Clear_Highway и @lmahmutov
+Then reboot. Once restarted, the gateway will automatically restore Zigbee
+firmware.
+
+## Reference of general-purpose input/output (GPIO)
+
+Kudos to @Clear_Highway and @lmahmutov for these.
 
 ![gateway_pinout_gpio](images/gateway_pinout_gpio.png "gpio pinout")
+
+Install the kernel modules:
 
 ```shell
 opkg update
@@ -204,7 +237,8 @@ opkg install kmod-spi-dev
 opkg install kmod-spi-gpio-custom
 ```
 
-Control
+Control─working with GPIO pins:
+
 ```shell
 echo "69" > /sys/class/gpio/export
 echo "70" > /sys/class/gpio/export
@@ -217,7 +251,7 @@ echo "1" > /sys/class/gpio/gpio70/value
 echo "0" > /sys/class/gpio/gpio70/value
 ```
 
-GPIO numbers. Contact numbers start from the lowest  on the photo and go up. 
+GPIO numbers. Contact numbers start from the lowest and go up.
 DOWN and UP represents the type of pulling. Down to GND, UP - 3.3v
 
 | Num | PULL | GPIO |
