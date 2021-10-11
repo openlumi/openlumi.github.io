@@ -8,7 +8,6 @@ These instructions apply to only to:
 The instructions will not work for the Xiaomi gateway2 version, with the
 Chinese plug DGNWG02LM. That version has other hardware components installed.
 
-<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
 - [Before you begin](#before-you-begin)
@@ -24,9 +23,6 @@ Chinese plug DGNWG02LM. That version has other hardware components installed.
     - [Return to stock firmware](#return-to-stock-firmware)
 - [Reference of general-purpose input/output (GPIO)](#reference-of-general-purpose-inputoutput-gpio)
 - [Links](#links)
-
-<!-- markdown-toc end -->
-
 
 ## Before you begin
 
