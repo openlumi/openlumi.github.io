@@ -43,7 +43,7 @@ If you need to configure the connection to the external MQTT broker, edit
 the configuration file `/etc/zigbee2mqtt/configuration.yaml` and restart
 the `zigbee2mqtt` service.
 
-If this is not your first zigbee2mqtt instance, be sure to read the [documentation](https://www.zigbee2mqtt.io/information/FAQ.html#how-do-i-run-multiple-instances-of-zigbee2mqtt).
+If this is not your first zigbee2mqtt instance, be sure to read the [documentation](https://www.zigbee2mqtt.io/guide/faq/#how-do-i-run-multiple-instances-of-zigbee2mqtt).
 
 ```shell
 /etc/init.d/zigbee2mqtt restart
