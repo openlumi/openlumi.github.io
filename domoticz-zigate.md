@@ -17,7 +17,7 @@ For the jn5169 chip, which is installed on our gateway, the Zigate firmware is u
 To flash it run the following command
 
 ```sh
-wget https://github.com/devbis/ZiGate/releases/download/v3.1e/ZiGate_31e_JN5169_COORDINATOR_115200.bin -O /tmp/zigate.bin 
+wget https://github.com/openlumi/ZiGate/releases/download/v3.1e/ZiGate_31e_JN5169_COORDINATOR_115200.bin -O /tmp/zigate.bin 
 jnflash /tmp/zigate.bin
 jntool erase_pdm
 ```
