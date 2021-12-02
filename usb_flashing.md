@@ -19,6 +19,10 @@ We have prepared an archive with the mfgtools program for downloading the firmwa
 as well as the firmware itself. The archive includes a program for windows
 and a console application for linux
 
+*21.02 Command-line interface (uuu)*
+[Version 21.02.1 2021-10-02](files/uuu-openwrt-21.02.1.zipp)
+
+*19.07 (Older version) Windows GUI (mfgtools)*
 [Version 19.07.7 2021-02-24](files/mfgtools-19.07.7-20210224.zip)
 
 ### Connect the gateway to your computer
@@ -50,7 +54,23 @@ be able to update partitions of the flash memory of the gateway.
 
 If you have Windows, you may need to install drivers from the Drivers folder.
 
-Run mfgtools.
+If you install 21.02+ the program to flash is UUU and for 19.07 it is mfgtools.
+
+### Burning OpenWrt version 21.02
+
+Download the archive and extract it. To flash the gateway, run the following 
+command in the command line in the folder:
+
+`uuu xiaomi_dgnwg05lm.uuu` or `uuu aqara_zhwg11lm.uuu`
+
+On linux you have to make uuu executable `chmod +x uuu` and run 
+commands with root privileges:
+`sudo ./uuu xiaomi_dgnwg05lm.uuu` or `sudo ./uuu aqara_zhwg11lm.uuu`
+
+In case of problems, download the latest version of uuu from 
+https://github.com/NXPmicro/mfgtools/releases
+
+### Burning OpenWrt version 19.07
 
 #### Windows 
 In case of windows, a window will open. If everything is soldered correctly, 
