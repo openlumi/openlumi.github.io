@@ -217,6 +217,13 @@ touch /home/root/need_update_coordinator.tag
 Then reboot. Once restarted, the gateway will automatically restore Zigbee
 firmware.
 
+To allow zigbee chip accepting devices you have to clear internal memory PDM:
+
+```sh
+stty -F "/dev/ttymxc1" raw 115200
+printf '\x01\x02\x10\x12\x02\x10\x02\x10\x12\x03' > /dev/ttymxc1
+```
+
 ## Reference of general-purpose input/output (GPIO)
 
 Kudos to @Clear_Highway and @lmahmutov for these.
