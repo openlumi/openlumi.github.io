@@ -20,7 +20,7 @@ as well as the firmware itself. The archive includes a program for windows
 and a console application for linux
 
 *21.02 Command-line interface (uuu)*
-[Version 21.02.1 2021-10-02](files/uuu-openwrt-21.02.1.zipp)
+[Version 21.02.1 2021-10-02](files/uuu-openwrt-21.02.1.zip)
 
 *19.07 (Older version) Windows GUI (mfgtools)*
 [Version 19.07.7 2021-02-24](files/mfgtools-19.07.7-20210224.zip)
