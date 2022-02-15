@@ -31,13 +31,12 @@ Then you should install the required libraries and zigbee2mqtt itself.
 ```shell
 opkg update
 opkg install mosquitto node node-zigbee2mqtt
-sed -i 's/port: 8080/port: 8090/' /etc/zigbee2mqtt/configuration.yaml
 sed -i 's/baudrate: 1000000/baudrate: 115200/' /etc/zigbee2mqtt/configuration.yaml
 sed -i 's/homeassistant: false/homeassistant: true/' /etc/zigbee2mqtt/configuration.yaml
 /etc/init.d/zigbee2mqtt restart
 ```
 
-Now the zigbee2mqtt web interface will work on http://*GATEWAY-IP*:8090/.
+Now the zigbee2mqtt web interface will work on http://*GATEWAY-IP*:8080/.
 It will send zigbee events to the local MQTT server.
 If you need to configure the connection to the external MQTT broker, edit 
 the configuration file `/etc/zigbee2mqtt/configuration.yaml` and restart
