@@ -4,7 +4,7 @@ For the jn5169 chip, which is installed on our gateway, the Zigate firmware is u
 You need to flash it and reset it to default settings.
 
 ```shell
-wget https://github.com/openlumi/JN-ZigbeeNodeControlBridge-firmware/releases/download/8ede/ZigbeeNodeControlBridge_8ede_JN5169_GP_Proxy_COORDINATOR_115200.bin -O /tmp/zigate.bin 
+wget https://github.com/openlumi/ZiGate/releases/download/990c--20220102-2320/ZigbeeNodeControlBridge_JN5169_COORDINATOR_115200.bin -O /tmp/zigate.bin 
 jnflash /tmp/zigate.bin
 jntool erase_pdm
 ```
