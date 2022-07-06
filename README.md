@@ -44,6 +44,23 @@ backup from your device, with an archive of your root filesystem.
 You cannot use a `generic backup`, because all firmware contains unique
 IDs and keys.
 
+#### Light backup
+
+This command will send the content of the files with keys to `termbin.com` and
+print you an URL in console. Open the link in a browser and save the content.
+It will help you to restore keys using generic backup.
+
+```sh
+cd /lumi/conf/
+for fn in *; do printf "=== Start $fn ===\n"; cat "$fn"; printf "=== End $fn ===\n"; done |  nc termbin.com 9999
+```
+
+Links to download generic backups without keys to connect to Xiaomi Cloud (replace with keys from backup):
+* [Xiaomi](https://bitbucket.org/openlumi/openlumi/downloads/lumi-stock-rootfs.tar.gz)
+* [Aqara](https://bitbucket.org/openlumi/openlumi/downloads/aqara-stock-rootfs.tar.gz)
+
+#### Full backup
+
 ```shell
 tar -cvpzf /tmp/lumi_stock.tar.gz -C / . --exclude='./tmp/*' --exclude='./proc/*' --exclude='./sys/*'
 ```
