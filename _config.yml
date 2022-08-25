@@ -1,1 +1,6 @@
-theme: jekyll-theme-slate
+remote_theme: openlumi/wiki
+
+minima:
+  social_links:
+    telegram: xiaomi_gw_hack
+    github: openlumi
