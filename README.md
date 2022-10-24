@@ -210,6 +210,11 @@ two ways to erase the data on the OpenWRT:
     firstboot -y && reboot now
     ```
 
+#### If system boot doesn`t complete
+
+- press `f` multiple times while booting in progress for enter to `failsafe mode`.
+- Run `ubirmvol /dev/ubi0 -Nrootfs_data && ubimkvol /dev/ubi0 -Nrootfs_data -m`.
+
 ### Return to stock firmware
 
 To return to the stock firmware, you need to flash the original kernel, DTB,
