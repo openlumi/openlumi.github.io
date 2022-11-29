@@ -33,12 +33,17 @@ __NOW YOUR GATEWAY HAS ROOT__
 
 
 Newer firmwares can provide init script with disabled shell login on the normal 
-start. Enable it.
-If you have an older firmware, you can run this command as well, it will run as 
+start and display this message:
+
+```sh
+INIT: no more processes left in this runlevel
+```
+
+Enable getty on serial console. If you have an older firmware, you can run this command as well, it will run as 
 no-op.
 
 ```sh
-sed -i "s/#mxc0/mxc0/" /etc/inittab
+sed -i "s/#mxc0/mxc0/" /etc/inittab && sync
 ```
 
 To enable ssh server on the gateway add the following line at the end of 
