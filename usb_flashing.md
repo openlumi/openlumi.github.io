@@ -19,8 +19,10 @@ We have prepared an archive with the mfgtools program for downloading the firmwa
 as well as the firmware itself. The archive includes a program for windows
 and a console application for linux
 
-*21.02 Command-line interface (uuu)*
-[Version 21.02.1 2021-10-02](files/uuu-openwrt-21.02.1.zip)
+*23.05 Command-line interface (uuu)*
+
+- [Version 23.05.2 2023-12-08](files/uuu-openwrt-23.05.2.zip)
+- [Version 21.02.1 2021-10-02](files/uuu-openwrt-21.02.1.zip)
 
 *19.07 (Older version) Windows GUI (mfgtools)*
 [Version 19.07.7 2021-02-24](files/mfgtools-19.07.7-20210224.zip)
