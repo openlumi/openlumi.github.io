@@ -116,39 +116,35 @@ name OpenWrt.
 
 ### Connect the gateway to your router
 
-1. To connect the gateway to your router, connect to the network and go to
-http://192.168.1.1/ .
+1. To connect the gateway to your router, connect to the network and go to http://192.168.1.1/ .
 
     The default credentials for the gateway are:
 
-        - login 'root': without a password.
+    - login 'root': without a password.
 
 2. Go to the section **Network > Wireless**
 
-![Go to Wireless](images/owrt_menu.png)
+    ![Go to Wireless](images/owrt_menu.png)
 
-3. Press the **Scan** button against the first interface `radio0`. After a few
-seconds, you will see a list of networks. Find your network and press **Join Network**
+3. Press the **Scan** button against the first interface `radio0`. After a few seconds, you will see a list of networks. Find your network and press **Join Network**
 
-![Scan](images/owrt_scan.png)
+    ![Scan](images/owrt_scan.png)
 
-4. In the pop-up window, set the "Replace wireless configuration" checkbox.
-Enter the passphrase from your Wi-Fi network below
+4. In the pop-up window, set the "Replace wireless configuration" checkbox. Enter the passphrase from your Wi-Fi network below
 
-![WiFi password](images/owrt_connect1.png)
+    ![WiFi password](images/owrt_connect1.png)
 
 5. Confirm the settings on the next window, press the **Save**.
 
-![WiFi password-2](images/owrt_connect2.png)
+    ![WiFi password-2](images/owrt_connect2.png)
 
-6. To apply the changes correctly, disable Access Poing by pressing
-**Disable** for the connection for the second interface.
+6. To apply the changes correctly, disable Access Poing by pressing **Disable** for the connection for the second interface.
 
-![Disable AP](images/owrt_disable_ap.png)
+    ![Disable AP](images/owrt_disable_ap.png)
 
-The gateway will disconnect you from AP and apply the changes.
-After the firmware, the mac address of the gateway changes, because the IP address
-also most likely changes. Check it in the router or in the gateway itself.
+    The gateway will disconnect you from AP and apply the changes.
+    After the firmware, the mac address of the gateway changes, because the IP address
+    also most likely changes. Check it in the router or in the gateway itself.
 
 The gateway is pre-installed:
 
