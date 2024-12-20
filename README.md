@@ -14,6 +14,7 @@ Chinese plug DGNWG02LM. That version has other hardware components installed.
     - [Make a backup](#make-a-backup)
 - [Flash your device over the air](#flash-your-device-over-the-air)
     - [Error recovery: the Over-the-Air method did not work for you](#error-recovery-the-over-the-air-method-did-not-work-for-you)
+- [Upgrade to new versions](#upgrade-to-new-versions)
 - [How to use OpenWrt](#how-to-use-openwrt)
     - [Connect the gateway to your router](#connect-the-gateway-to-your-router)
     - [Working with ZigBee](#working-with-zigbee)
@@ -108,6 +109,48 @@ If the preceding method fails for some reason, you can bring the gateway back
 to life by soldering the usb and uart, and flashing it through `mfgtools`.
 
 [See the instructions to flash over USB](./usb_flashing.md)
+
+## Upgrade to new versions
+
+Newer releases can be found in the [releases](https://openlumi.github.io/releases/)
+section. To upgrade, you can use System -> Backup/Flash firmware section in UI and use
+appropriate sysupgrade image. Or run console `sysupgrade <image_file>` command. See
+[OpenWrt documentation](https://openwrt.org/docs/guide-quick-start/sysupgrade.luci).
+
+Older versions (19.07 - 22.03) are moved to archive and can be found in the [archive](https://openlumi.github.io/archive/)
+
+You can upgrade from 21 -> 22 -> 23 freely. 
+
+### From 19.07 
+
+To upgrade from 19.07 to 21.02 you need to flash DTB partition according to your device and U-BOOT first. 
+Or simply run the script:
+
+For xiaomi, not suitable for aqara
+```shell
+wget https://gist.githubusercontent.com/devbis/1b71d1a18e6b0b41250154a35a17a614/raw/dgnwg05lm-19-to-21.sh -O - | sh
+```
+
+For aqara, not suitable for xiaomi
+```shell
+wget https://gist.githubusercontent.com/devbis/1b71d1a18e6b0b41250154a35a17a614/raw/zhwg11lm-19-to-21.sh -O - | sh
+```
+  
+### To 24.10
+
+You need to flash DTB partition to enable support for in-kernel NAND driver.
+
+For xiaomi:
+```shell
+wget https://openlumi.github.io/releases/24.10.0/targets/imx/cortexa7/openlumi-24.10.0-imx-cortexa7-imx6ull-xiaomi-dgnwg05lm.dtb -O /tmp/openlumi-imx-cortexa7-imx6ull-xiaomi-dgnwg05lm.dtb
+[ -f /tmp/openlumi-imx-cortexa7-imx6ull-xiaomi-dgnwg05lm.dtb ] && flash_erase /dev/mtd2 0 0 && nandwrite -p /dev/mtd2 -p /tmp/openlumi-imx-cortexa7-imx6ull-xiaomi-dgnwg05lm.dtb
+```
+
+For aqara:
+```shell
+wget https://openlumi.github.io/releases/24.10.0/targets/imx/cortexa7/openlumi-24.10.0-imx-cortexa7-imx6ull-aqara-zhwg11lm.dtb -O /tmp/openlumi-imx-cortexa7-imx6ull-aqara-zhwg11lm.dtb
+[ -f /tmp/openlumi-imx-cortexa7-imx6ull-aqara-zhwg11lm.dtb ] && flash_erase /dev/mtd2 0 0 && nandwrite -p /dev/mtd2 -p /tmp/openlumi-imx-cortexa7-imx6ull-aqara-zhwg11lm.dtb
+```
 
 ## How to use OpenWrt
 
