@@ -169,8 +169,7 @@ with Zigbee and domoticz for other automation.
 
 1. [Installing Zigbee2mqtt](./zigbee2mqtt.md)
 2. [Installing Home Assistant with ZHA component](https://github.com/openlumi/homeassistant_on_openwrt)
-3. [Installing Zesp32](./zesp32.md)
-4. [Installing Domoticz and configuring Zigate plugin](./domoticz-zigate.md)
+3. [Installing Domoticz and configuring Zigate plugin](./domoticz-zigate.md)
 
 ### Other software you might want to use
 
