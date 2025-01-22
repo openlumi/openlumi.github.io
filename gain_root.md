@@ -20,7 +20,7 @@ Enter the following line and boot will start:
 setenv bootargs "${bootargs} single rw init=/bin/bash" && boot
 ```
 
-As an alternative, if you're bash input displays weird characters, use sh instead of bash
+As an alternative, if your terminal input displays weird characters, use sh instead of bash
 ```
 setenv bootargs "${bootargs} single rw init=/bin/sh" && boot
 ```
