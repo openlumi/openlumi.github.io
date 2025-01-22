@@ -20,6 +20,10 @@ Enter the following line and boot will start:
 setenv bootargs "${bootargs} single rw init=/bin/bash" && boot
 ```
 
+As an alternative, if you're bash input displays weird characters, use sh instead of bash
+```
+setenv bootargs "${bootargs} single rw init=/bin/sh" && boot
+```
 After booting to linux bash console, enter: 
 
 ```shell
@@ -28,6 +32,11 @@ passwd
 
 Enter the prepared password 2 times. In case of an empty password, you have to 
 press enter one more time to confirm it.
+
+In case your password change is failing over and over again due to mismatched passwords - change it with following oneliner:
+```
+usermod --password $(echo NEW_PASSWORD | openssl passwd -1 -stdin) root
+```
 
 __NOW YOUR GATEWAY HAS ROOT__
 
