@@ -252,6 +252,7 @@ two ways to erase the data on the OpenWRT:
 
 - press `f` multiple times while booting in progress for enter to `failsafe mode`.
 - Run `ubirmvol /dev/ubi0 -Nrootfs_data && ubimkvol /dev/ubi0 -Nrootfs_data -m`.
+- This step sometimes fails. In that case, revert back to stock firmware and repeat the process of flashing OpenWrt
 
 ### Return to stock firmware
 
@@ -265,8 +266,8 @@ Name your backup `lumi_stock.tar.gz`. Put it in the directory
 `Profiles/Linux/OS Firmware/files`. This overwrites the empty file
 `lumi_stock.tar.gz`
 
-Then put the gateway into boot mode via usb and use `mfgtools` to
-flash the original firmware.
+Then put the gateway into USB boot mode (`>bmode usb` in bootloader shell (press any key during boot) via USB (you have to solder USB A cable to the USB interface next to UART. ID pin is not required) and use `mfgtools` to
+flash the original firmware. If you get -29 error in mfgtools, check whether you're not running two instances of mfgtools.
 
 To flash zigbee firmware back, you should log in to the gateway with stock
 firmware and run the command
