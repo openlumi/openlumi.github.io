@@ -5,7 +5,7 @@ Solder 3 contacts GND, RX, TX to UART:
 ![UART Pinout](images/uart_pinout.jpg)
  
 
-Then connect UART 2 USB adapter. To use serial console while booting, you 
+Then connect UART 2 USB adapter. If you don't have UART2USB adapter, use any [Arduino with CH340 with jumper cables](https://www.instructables.com/How-to-Use-Arduino-As-USB-to-TTL-Serial-Converter-/). To use serial console while booting, you 
 can use minicom/picocom on Linux or PuTTY on Windows. Use baudrate 115200.
 Stop booting by pressing any key in the uart terminal right after powering the
 device. If it not stops with prompt `=>` you should reboot the gateway by 
